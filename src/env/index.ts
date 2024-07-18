@@ -15,6 +15,7 @@ const getEnvVar = (
 
   if (required && !value) {
     logger.error(`Unable to locate required env. variable: ${name}`);
+    throw new Error(`Unable to locate required env. variable: ${name}`);
   }
 
   if (value && asArray) {
@@ -34,6 +35,6 @@ export const Env = {
     PORT: parseInt((getEnvVar('DB_PORT') as string) || '5432'),
     TYPE: getEnvVar('DB_TYPE') as DbType,
     HOST: getEnvVar('DB_HOST') as string,
-    SYNC: getEnvVar('DB_SYNC') as string,
+    SYNC: getEnvVar('DB_SYNC', true) as string,
   },
 };

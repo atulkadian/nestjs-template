@@ -4,7 +4,7 @@ import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
 export class ConfigService implements OnApplicationBootstrap {
   private readonly logger = new Logger(ConfigService.name);
 
-  async onApplicationBootstrap() {
+  async onApplicationBootstrap(): Promise<void> {
     this.logger.log(`ConfigService initialized`);
   }
 }
