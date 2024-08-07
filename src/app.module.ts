@@ -5,6 +5,7 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { Env } from './env';
 import { ConfigModule } from './config/config.module';
 import { Databases } from './common/constants';
+import { CacheModule } from '@nestjs/cache-manager';
 
 const typeOrmOptions: TypeOrmModuleOptions = {
   type: Env.DATABASE.TYPE,
@@ -26,7 +27,13 @@ if (Env.DATABASE.TYPE !== Databases.SQLITE) {
 }
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeOrmOptions), ConfigModule],
+  imports: [
+    TypeOrmModule.forRoot(typeOrmOptions),
+    ConfigModule,
+    CacheModule.register({
+      isGlobal: true,
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
