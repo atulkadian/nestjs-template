@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { ResponseDto } from './common/response.dto';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
+  async getHello(): Promise<string | ResponseDto<string>> {
     return 'Hello World!';
   }
 }

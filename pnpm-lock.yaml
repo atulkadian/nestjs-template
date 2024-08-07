@@ -32,6 +32,9 @@ importers:
       globals:
         specifier: ^15.9.0
         version: 15.9.0
+      rxjs:
+        specifier: ^7.8.1
+        version: 7.8.1
       sqlite3:
         specifier: ^5.1.7
         version: 5.1.7
