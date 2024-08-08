@@ -1,5 +1,3 @@
-import eslintPlugin from '@typescript-eslint/eslint-plugin';
-const typescriptEslint = { eslintPlugin };
 import globals from 'globals';
 import tsParser from '@typescript-eslint/parser';
 import path from 'node:path';
@@ -45,6 +43,7 @@ export default [
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unused-vars': 'error',
+      '@/newline-before-return': 'error',
     },
   },
 ];

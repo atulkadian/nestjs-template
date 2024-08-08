@@ -43,6 +43,7 @@ export class ResponseInterceptor<T>
             }),
           );
         }
+
         return response;
       }),
     );
