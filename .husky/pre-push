@@ -1,0 +1,10 @@
+#!/bin/bash
+start_time=$(date +%s)
+
+echo "🚨 Zero Trust Policy enabled 🗿. Checking for build errors before pushing 🛠️"
+pnpm build | grep -q "error" && echo "❌ Build failed. Please fix the errors before pushing 🙂" && exit 1
+
+end_time=$(date +%s)
+duration=$((end_time - start_time))
+
+echo "✅ Build successful and took ${duration}s. Pushing changes 🚀"
