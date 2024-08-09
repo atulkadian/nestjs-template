@@ -8,6 +8,6 @@ export class ResponseDto<T> {
     this.success = success;
     this.statusCode = statusCode;
     this.message = message;
-    this.data = data;
+    this.data = data ? data : ({} as T);
   }
 }

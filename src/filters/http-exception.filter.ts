@@ -15,13 +15,16 @@ export class HttpExceptionFilter {
 
     const status = exception.getStatus();
     const message = exception.message || APIMessages.INTERNAL_SERVER_ERROR;
+    const error = exception.getResponse();
+    const data =
+      error && typeof error['message'] === 'object' ? error['message'] : null;
 
-    const responseBody = new ResponseDto(false, status, message, {});
+    const responseBody = new ResponseDto(false, status, message, data);
 
     this.logger.error(
       JSON.stringify({
         path: request.url,
-        error: message,
+        error: data ? data : message,
       }),
     );
 
