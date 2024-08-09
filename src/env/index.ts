@@ -37,4 +37,8 @@ export const Env = {
     HOST: getEnvVar('DB_HOST') as string,
     SYNC: getEnvVar('DB_SYNC', true) as string,
   },
+  JWT: {
+    SECRET: getEnvVar('JWT_SECRET') as string,
+    EXPIRES_IN: getEnvVar('JWT_EXPIRES_IN') as string,
+  },
 };

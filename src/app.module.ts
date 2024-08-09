@@ -6,6 +6,9 @@ import { Env } from './env';
 import { ConfigModule } from './config/config.module';
 import { Databases } from './common/constants';
 import { CacheModule } from '@nestjs/cache-manager';
+import { AuthModule } from './modules/auth/auth.module';
+import { APP_FILTER } from '@nestjs/core';
+import { ErrorFilter } from './filters/error.filter';
 
 const typeOrmOptions: TypeOrmModuleOptions = {
   type: Env.DATABASE.TYPE,
@@ -33,8 +36,15 @@ if (Env.DATABASE.TYPE !== Databases.SQLITE) {
     CacheModule.register({
       isGlobal: true,
     }),
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: ErrorFilter,
+    },
+    AppService,
+  ],
 })
 export class AppModule {}
