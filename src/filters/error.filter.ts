@@ -12,6 +12,7 @@ export class ErrorFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
+    const ip = request['ip-address'];
 
     const status = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = APIMessages.INTERNAL_SERVER_ERROR;
@@ -24,7 +25,8 @@ export class ErrorFilter {
 
     this.logger.error(
       JSON.stringify({
-        path: request.url,
+        ip,
+        path: request.method + ' ' + request.url,
         error:
           exception instanceof Error && exception?.stack
             ? exception.stack

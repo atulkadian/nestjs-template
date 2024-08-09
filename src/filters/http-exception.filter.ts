@@ -12,6 +12,7 @@ export class HttpExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
+    const ip = request['ip-address'];
 
     const status = exception.getStatus();
     const message = exception.message || APIMessages.INTERNAL_SERVER_ERROR;
@@ -23,7 +24,8 @@ export class HttpExceptionFilter {
 
     this.logger.error(
       JSON.stringify({
-        path: request.url,
+        ip,
+        path: request.method + ' ' + request.url,
         error: data ? data : message,
       }),
     );
