@@ -27,7 +27,13 @@ jobs:
       - name: Update dependencies
         run: pnpm update --latest
 
+      - name: Check for changes
+        id: git-check
+        run: |
+          git diff --exit-code || echo "Changes detected"
+
       - name: Commit and push updates
+        if: steps.git-check.outputs.changes == 'Changes detected'
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
