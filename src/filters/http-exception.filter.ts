@@ -7,12 +7,12 @@ import { APIMessages } from 'src/common/constants';
 export class HttpExceptionFilter {
   private readonly logger = new Logger(HttpExceptionFilter.name);
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  catch(exception: HttpException, host: ArgumentsHost) {
+  catch(exception: HttpException, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
     const ip = request['ip-address'];
+    ctx.getResponse<Response>().removeHeader('X-Powered-By');
 
     const status = exception.getStatus();
     const message = exception.message || APIMessages.INTERNAL_SERVER_ERROR;

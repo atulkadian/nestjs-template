@@ -3,8 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 
 @Injectable()
 export class IpAddressMiddleware implements NestMiddleware {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  use(req: Request, res: Response, next: NextFunction) {
+  use(req: Request, res: Response, next: NextFunction): void {
     const ip =
       req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';
 

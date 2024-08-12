@@ -6,6 +6,7 @@ import {
   Logger,
   NestInterceptor,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { Observable, map } from 'rxjs';
 import { APIMessages } from 'src/common/constants';
 import { ResponseDto } from 'src/common/response.dto';
@@ -24,6 +25,10 @@ export class ResponseInterceptor<T>
       map((data) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let response: ResponseDto<T> | any;
+        context
+          .switchToHttp()
+          .getResponse<Response>()
+          .removeHeader('X-Powered-By');
         if (data instanceof ResponseDto) {
           context.switchToHttp().getResponse().statusCode = data.statusCode;
           response = data;

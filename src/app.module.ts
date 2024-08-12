@@ -2,12 +2,13 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { Env } from './env';
 import { ConfigModule } from './config/config.module';
 import { Databases } from './common/constants';
 import { CacheModule } from '@nestjs/cache-manager';
 import { AuthModule } from './modules/auth/auth.module';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { ErrorFilter } from './filters/error.filter';
 
 const typeOrmOptions: TypeOrmModuleOptions = {
@@ -32,6 +33,12 @@ if (Env.DATABASE.TYPE !== Databases.SQLITE) {
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeOrmOptions),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 60,
+      },
+    ]),
     ConfigModule,
     CacheModule.register({
       isGlobal: true,
@@ -43,6 +50,10 @@ if (Env.DATABASE.TYPE !== Databases.SQLITE) {
     {
       provide: APP_FILTER,
       useClass: ErrorFilter,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
     AppService,
   ],

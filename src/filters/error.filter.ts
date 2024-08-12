@@ -7,8 +7,7 @@ import { APIMessages } from 'src/common/constants';
 export class ErrorFilter {
   private readonly logger = new Logger(ErrorFilter.name);
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  catch(exception: unknown, host: ArgumentsHost) {
+  catch(exception: unknown, host: ArgumentsHost): void {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
