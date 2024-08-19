@@ -1,5 +1,5 @@
-export type ServerStats = {
-  uptime: string;
-  memoryUsed: string;
-  memoryTotal: string;
-};
+import { HealthCheckResult } from '@nestjs/terminus';
+
+export interface TServerHealth extends HealthCheckResult {
+  upTime: string;
+}

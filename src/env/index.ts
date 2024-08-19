@@ -10,7 +10,7 @@ const getEnvVar = (
   name: string,
   required: boolean = true,
   asArray?: boolean,
-): string | string[] | null => {
+): string | string[] | number | null => {
   const value = process.env[name];
 
   if (required && !value) {
@@ -28,6 +28,8 @@ const getEnvVar = (
 export const Env = {
   PORT: parseInt((getEnvVar('PORT') as string) || '3000'),
   ENVIRONMENT: (getEnvVar('ENVIRONMENT') as string) || 'local',
+  DISK_HEALTH_THRESHOLD:
+    parseFloat(getEnvVar('DISK_HEALTH_THRESHOLD', false) as string) || 0.5,
   DATABASE: {
     DB_USER: getEnvVar('DB_USER') as string,
     DB_PASSWORD: getEnvVar('DB_PASSWORD') as string,

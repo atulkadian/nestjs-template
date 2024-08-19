@@ -1,34 +1,39 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { APIMessages } from './common/constants';
+import { Injectable } from '@nestjs/common';
+import {
+  HealthCheckService,
+  DiskHealthIndicator,
+  TypeOrmHealthIndicator,
+  HealthIndicatorResult,
+} from '@nestjs/terminus';
 import { convertSecondstoHhSs } from './utils/time.util';
-import { ServerStats } from './common/types';
+import { TServerHealth } from './common/types';
+import { Env } from './env';
 
 @Injectable()
 export class AppService {
-  private logger = new Logger(AppService.name);
+  constructor(
+    private readonly health: HealthCheckService,
+    private readonly disk: DiskHealthIndicator,
+    private readonly db: TypeOrmHealthIndicator,
+  ) {}
 
   async getHello(): Promise<string> {
     return 'Hello World!';
   }
 
   // Method to assess server stats.
-  async getServerStats(): Promise<ServerStats> {
-    try {
-      const uptime = process.uptime();
-      const { heapTotal, heapUsed } = process.memoryUsage();
-      const data = {
-        uptime: convertSecondstoHhSs(uptime),
-        memoryUsed: `${Math.round(heapUsed / 1000000)} MB`,
-        memoryTotal: `${Math.round(heapTotal / 1000000)} MB`,
-      };
+  async getServerHealth(): Promise<TServerHealth> {
+    const upTime = process.uptime();
+    const uptimeInSeconds = convertSecondstoHhSs(upTime);
+    const healthData = await this.health.check([
+      (): Promise<HealthIndicatorResult> =>
+        this.disk.checkStorage('storage', {
+          path: '/',
+          thresholdPercent: Env.DISK_HEALTH_THRESHOLD,
+        }),
+      (): Promise<HealthIndicatorResult> => this.db.pingCheck('database'),
+    ]);
 
-      return data;
-    } catch (error) {
-      this.logger.error(error);
-      throw new HttpException(
-        APIMessages.INTERNAL_SERVER_ERROR,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+    return { upTime: uptimeInSeconds, ...healthData };
   }
 }

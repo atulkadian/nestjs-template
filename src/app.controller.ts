@@ -1,8 +1,8 @@
 import { Controller, Get, UseGuards, UseInterceptors } from '@nestjs/common';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 import { AppService } from './app.service';
 import { ResponseDto } from './common/response.dto';
-import { CacheInterceptor } from '@nestjs/cache-manager';
-import { ServerStats } from './common/types';
+import { TServerHealth } from './common/types';
 import { AuthGuard } from './modules/auth/guards/auth.guard';
 
 @Controller()
@@ -17,7 +17,7 @@ export class AppController {
   }
 
   @Get('health')
-  async getServerStats(): Promise<ServerStats> {
-    return await this.appService.getServerStats();
+  async getServerHealth(): Promise<TServerHealth> {
+    return await this.appService.getServerHealth();
   }
 }
