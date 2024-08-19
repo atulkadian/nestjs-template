@@ -39,6 +39,12 @@ export const Env = {
     HOST: getEnvVar('DB_HOST') as string,
     SYNC: getEnvVar('DB_SYNC', true) as string,
   },
+  RATE_LIMIT: {
+    TTL: parseInt((getEnvVar('RATE_LIMIT_TTL') as string) || '60000'),
+    MAX_REQUESTS: parseInt(
+      (getEnvVar('RATE_LIMIT_MAX_REQUESTS') as string) || '60',
+    ),
+  },
   JWT: {
     SECRET: getEnvVar('JWT_SECRET') as string,
     EXPIRES_IN: getEnvVar('JWT_EXPIRES_IN') as string,

@@ -36,8 +36,8 @@ if (Env.DATABASE.TYPE !== Databases.SQLITE) {
     TypeOrmModule.forRoot(typeOrmOptions),
     ThrottlerModule.forRoot([
       {
-        ttl: 60000,
-        limit: 60,
+        ttl: Env.RATE_LIMIT.TTL,
+        limit: Env.RATE_LIMIT.MAX_REQUESTS,
       },
     ]),
     ConfigModule,
