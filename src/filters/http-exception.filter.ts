@@ -17,8 +17,15 @@ export class HttpExceptionFilter {
     const status = exception.getStatus();
     const message = exception.message || APIMessages.INTERNAL_SERVER_ERROR;
     const error = exception.getResponse();
+    console.log(error['error']);
+
+    //catch validation and health indicator errors
     const data =
-      error && typeof error['message'] === 'object' ? error['message'] : null;
+      error && typeof error === 'object'
+        ? error['message']
+          ? error['message']
+          : error['error']
+        : null;
 
     const responseBody = new ResponseDto(false, status, message, data);
 
