@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "^9.33.0",
+    "@eslint/js": "^9.34.0",
     "@nestjs/cache-manager": "^3.0.1",
     "@nestjs/common": "^11.1.6",
     "@nestjs/core": "^11.1.6",
@@ -41,7 +41,7 @@
     "husky": "^9.1.7",
     "rxjs": "^7.8.2",
     "sqlite3": "^5.1.7",
-    "typeorm": "^0.3.25"
+    "typeorm": "^0.3.26"
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.10",
@@ -51,9 +51,9 @@
     "@types/jest": "^30.0.0",
     "@types/node": "^24.3.0",
     "@types/supertest": "^6.0.3",
-    "@typescript-eslint/eslint-plugin": "^8.39.1",
-    "@typescript-eslint/parser": "^8.39.1",
-    "eslint": "^9.33.0",
+    "@typescript-eslint/eslint-plugin": "^8.40.0",
+    "@typescript-eslint/parser": "^8.40.0",
+    "eslint": "^9.34.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "jest": "^30.0.5",
